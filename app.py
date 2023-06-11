@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Подключение к PostgreSQL
+# Подключение
 connection = psycopg2.connect(
     user=os.getenv('DB_USER'),
     password=os.getenv('DB_PASSWORD'),
@@ -45,7 +45,7 @@ cursor.execute(create_records_table_query)
 connection.commit()
 
 
-# Маршрут для создания пользователя
+# Создание пользователя
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -64,7 +64,7 @@ def create_user():
         return jsonify({'error': 'Name is required.'}), 400
 
 
-# Маршрут для добавления аудиозаписи
+# Добавление аудиозаписи
 @app.route('/records', methods=['POST'])
 def add_record():
     user_id = request.form.get('user_id')
@@ -98,7 +98,7 @@ def add_record():
         return jsonify({'error': 'Missing required fields.'}), 400
 
 
-# Маршрут для доступа к аудиозаписи
+# Скачивание аудиозаписи
 @app.route('/record', methods=['GET'])
 def download_record():
     record_id = request.args.get('id')
